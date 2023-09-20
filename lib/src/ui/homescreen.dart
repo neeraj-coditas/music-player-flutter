@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mume/src/models/song.dart';
-import 'package:mume/src/ui/artists_screen.dart';
+
 import 'package:mume/src/ui/premium_screen.dart';
 import 'package:mume/src/utils/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:mume/src/ui/song_screen.dart';
+
+import 'package:mume/src/ui/suggested_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedBottomBarTab = 0;
+
+  int _selectedTab = 0;
 
   bool darkThemeToggleStatus = false;
 
@@ -145,497 +148,302 @@ class _HomeScreenState extends State<HomeScreen> {
                       : const Icon(Icons.more_vert_outlined),
                 )),
           ]),
-      body: _selectedBottomBarTab == 0 ||
-              _selectedBottomBarTab == 1 ||
-              _selectedBottomBarTab == 2
+      body: _selectedBottomBarTab == 0
           ? Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    DefaultTabController(
-                      length: 5,
-                      child: TabBar(
-                        isScrollable: true,
-
-                        tabs: _tabList,
-                        labelColor: Colors.orange, //<-- selected text color
-                        unselectedLabelColor: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Recently Played',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        Text(
-                          'See All',
-                          style: TextStyle(
-                              color: Colors.orange,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      height: 200,
-                      child: ListView.builder(
-                        itemCount: songs.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          SongModel song = songs[index];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return SongScreen(
-                                      songImage: song.artistArt,
-                                      songName: song.songName,
-                                      artistName: song.artistName,
-                                    );
-                                  },
-                                ));
-                              },
-                              child: SizedBox(
-                                width: 100,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(12)),
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(24),
-                                        child: Image.network(
-                                          song.artistArt,
-                                          fit: BoxFit.cover,
-                                          height: 100,
-                                          width: 100,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        '${song.songName} - ${song.artistName}',
-                                        textAlign: TextAlign.center,
-                                        maxLines: 3,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Artists',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        Text(
-                          'See All',
-                          style: TextStyle(
-                              color: Colors.orange,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ArtistScreen()));
+                child: Column(children: [
+                  DefaultTabController(
+                    initialIndex: 0,
+                    length: 5,
+                    child: TabBar(
+                      isScrollable: true,
+                      onTap: (value) {
+                        setState(() {
+                          _selectedTab = value;
+                        });
                       },
-                      child: SizedBox(
-                        height: 175,
-                        child: ListView.builder(
-                          itemCount: songs.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            SongModel song = songs[index];
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: SizedBox(
-                                width: 100,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: ClipOval(
-                                        child: Image.network(
-                                          song.albumArt,
-                                          fit: BoxFit.cover,
-                                          height: 100,
-                                          width: 100,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        song.artistName,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                      tabs: _tabList,
+                      labelColor: Colors.orange, //<-- selected text color
+                      unselectedLabelColor: Colors.grey,
                     ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Most Played',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        Text(
-                          'See All',
-                          style: TextStyle(
-                              color: Colors.orange,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14),
+                  ),
+                  _selectedTab == 0
+                      ? SuggestedScreen(
+                          songs: songs,
                         )
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      height: 200,
-                      child: ListView.builder(
-                        itemCount: songs.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          SongModel song = songs[index];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: SizedBox(
-                              width: 100,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    decoration: const BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(24)),
-                                      child: Image.network(
-                                        song.artistArt,
-                                        fit: BoxFit.cover,
-                                        height: 100,
-                                        width: 100,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      song.artistName,
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                      : Container(),
+                ]),
               ),
             )
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 16),
-                    Container(
-                      decoration: const BoxDecoration(
-                          borderRadius:
-                              BorderRadius.all(Radius.elliptical(50, 40)),
-                          color: Colors.orange),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          children: [
-                            const Text(
-                              'Enjoy All Benefits!',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            const Text(
-                              'Enjoy listening songs with better audio quality, without restrictions, and without adds',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            const SizedBox(height: 16),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) {
-                                    return const PremiumScreen();
-                                  }),
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16)),
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 8),
-                                  child: Text(
-                                    'Get Premium',
-                                    style: TextStyle(
-                                        color: Colors.orange, fontSize: 12),
+          : _selectedBottomBarTab == 3
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 16),
+                        Container(
+                          decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.elliptical(40, 50)),
+                              color: Colors.orange),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Enjoy All Benefits!',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                const Text(
+                                  'Enjoy listening songs with better audio quality, without restrictions, and without adds',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                const SizedBox(height: 16),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return const PremiumScreen();
+                                      }),
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(16)),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 8),
+                                      child: Text(
+                                        'Get Premium',
+                                        style: TextStyle(
+                                            color: Colors.orange, fontSize: 12),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Divider(
-                      color: Colors.grey[400],
-                      height: 2,
-                    ),
-                    const SizedBox(height: 12),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Icon(
-                                Icons.cloud_upload_sharp,
-                              ),
-                            ),
-                            Text('Backup')
-                          ],
+                        const SizedBox(
+                          height: 16,
                         ),
-                        Icon(
-                          Icons.navigate_next_outlined,
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Icon(
-                                Icons.notifications_active,
-                              ),
-                            ),
-                            Text('Notifications')
-                          ],
+                        Divider(
+                          color: Colors.grey[400],
+                          height: 2,
                         ),
-                        Icon(
-                          Icons.navigate_next_outlined,
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+                        const SizedBox(height: 12),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Icon(
-                                Icons.abc_outlined,
-                              ),
-                            ),
-                            Text('Language')
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 12),
-                              child: Text('English (US)'),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Icon(
+                                    Icons.cloud_upload_sharp,
+                                  ),
+                                ),
+                                Text('Backup')
+                              ],
                             ),
                             Icon(
                               Icons.navigate_next_outlined,
-                            ),
+                            )
                           ],
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                        ),
+                        const SizedBox(height: 12),
                         const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Icon(
-                                Icons.remove_red_eye,
-                              ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Icon(
+                                    Icons.notifications_active,
+                                  ),
+                                ),
+                                Text('Notifications')
+                              ],
                             ),
-                            Text('Dark Mode')
+                            Icon(
+                              Icons.navigate_next_outlined,
+                            )
                           ],
                         ),
-                        Switch.adaptive(
-                          inactiveThumbColor: Colors.grey,
-                          activeTrackColor: Colors.orange,
-                          activeColor: Colors.white,
-                          value: darkThemeToggleStatus,
-                          onChanged: (value) {
-                            setState(() {
-                              darkThemeToggleStatus = !darkThemeToggleStatus;
-                              themeProvider.toggleTheme();
-                            });
-                          },
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                        const SizedBox(height: 12),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Icon(
+                                    Icons.abc_outlined,
+                                  ),
+                                ),
+                                Text('Language')
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: Text('English (US)'),
+                                ),
+                                Icon(
+                                  Icons.navigate_next_outlined,
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 12),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Icon(
-                                Icons.share,
-                              ),
+                            const Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Icon(
+                                    Icons.remove_red_eye,
+                                  ),
+                                ),
+                                Text('Dark Mode')
+                              ],
                             ),
-                            Text('Share App')
+                            Switch.adaptive(
+                              inactiveThumbColor: Colors.grey,
+                              activeTrackColor: Colors.orange,
+                              activeColor: Colors.white,
+                              value: darkThemeToggleStatus,
+                              onChanged: (value) {
+                                setState(() {
+                                  darkThemeToggleStatus =
+                                      !darkThemeToggleStatus;
+                                  themeProvider.toggleTheme();
+                                });
+                              },
+                            )
                           ],
                         ),
-                        Icon(
-                          Icons.navigate_next_outlined,
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+                        const SizedBox(height: 12),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Icon(
-                                Icons.menu_book,
-                              ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Icon(
+                                    Icons.share,
+                                  ),
+                                ),
+                                Text('Share App')
+                              ],
                             ),
-                            Text('Changelog')
+                            Icon(
+                              Icons.navigate_next_outlined,
+                            )
                           ],
                         ),
-                        Icon(
-                          Icons.navigate_next_outlined,
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+                        const SizedBox(height: 12),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Icon(
-                                Icons.verified_user_sharp,
-                              ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Icon(
+                                    Icons.menu_book,
+                                  ),
+                                ),
+                                Text('Changelog')
+                              ],
                             ),
-                            Text('Privacy Policy')
+                            Icon(
+                              Icons.navigate_next_outlined,
+                            )
                           ],
                         ),
-                        Icon(
-                          Icons.navigate_next_outlined,
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+                        const SizedBox(height: 12),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Icon(
-                                Icons.info_outline,
-                              ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Icon(
+                                    Icons.verified_user_sharp,
+                                  ),
+                                ),
+                                Text('Privacy Policy')
+                              ],
                             ),
-                            Text('FAQ')
+                            Icon(
+                              Icons.navigate_next_outlined,
+                            )
                           ],
                         ),
-                        Icon(
-                          Icons.navigate_next_outlined,
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+                        const SizedBox(height: 12),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Icon(
-                                Icons.exit_to_app,
-                              ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Icon(
+                                    Icons.info_outline,
+                                  ),
+                                ),
+                                Text('FAQ')
+                              ],
                             ),
-                            Text('Quit')
+                            Icon(
+                              Icons.navigate_next_outlined,
+                            )
                           ],
                         ),
-                        Icon(
-                          Icons.navigate_next_outlined,
-                        )
+                        const SizedBox(height: 12),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Icon(
+                                    Icons.exit_to_app,
+                                  ),
+                                ),
+                                Text('Quit')
+                              ],
+                            ),
+                            Icon(
+                              Icons.navigate_next_outlined,
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
+                )
+              : Container(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: true,
