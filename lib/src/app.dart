@@ -104,7 +104,7 @@ class _AppState extends State<App> with ChangeNotifier {
                   selectedItemColor: Colors.orange,
                   unselectedItemColor: Colors.grey),
             ),
-      home: Scaffold(
+      home: const Scaffold(
         body: OnboardingScreen(),
       ),
     );

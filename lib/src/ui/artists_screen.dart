@@ -81,11 +81,13 @@ class ArtistScreen extends StatelessWidget {
             const SizedBox(height: 32),
             Container(
               alignment: Alignment.center,
-              height: 250,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Image(image: NetworkImage(songs[1].albumArt)),
+              height: 200,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: Image(
+                    image: NetworkImage(songs[1].albumArt),
+                    fit: BoxFit.cover,
+                  )),
             ),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 12),
@@ -216,7 +218,10 @@ class ArtistScreen extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Icon(Icons.play_circle),
+                                child: Icon(
+                                  Icons.play_circle,
+                                  color: Colors.orange,
+                                ),
                               ),
                               Icon(Icons.more_vert)
                             ],

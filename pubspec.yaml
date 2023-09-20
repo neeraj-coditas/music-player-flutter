@@ -7,6 +7,8 @@ environment:
   sdk: ">=3.0.6 <4.0.0"
 
 dependencies:
+  audio_video_progress_bar: ^2.0.0
+  audioplayers: ^5.1.0
   flutter:
     sdk: flutter
   provider: ^6.0.5
@@ -23,6 +25,7 @@ flutter:
     - assets/woman_listening.png
     - assets/logo.png
     - assets/premium.png
+    - assets/lessthanzero.mp3
 
   fonts:
     - family: "Poppins"

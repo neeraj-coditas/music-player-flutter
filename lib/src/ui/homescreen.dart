@@ -4,6 +4,7 @@ import 'package:mume/src/ui/artists_screen.dart';
 import 'package:mume/src/ui/premium_screen.dart';
 import 'package:mume/src/utils/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:mume/src/ui/song_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
         songName: "Uptown Funk",
         artistName: "Mark Ronson ft. Bruno Mars",
         artistArt:
-            "https://upload.wikimedia.org/wikipedia/en/a/a7/Mark_Ronson_-_Uptown_Funk_%28feat._Bruno_Mars%29_%28Official_Single_Cover%29.png",
+            "https://i.scdn.co/image/ab67616d0000b273e419ccba0baa8bd3f3d7abf2",
         albumArt:
             "https://lastfm.freetls.fastly.net/i/u/ar0/7253d5bd01c230ed133e235ead33d64b.jpg"),
     SongModel(
@@ -134,7 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
                 padding: const EdgeInsets.only(right: 20.0),
                 child: GestureDetector(
-                  onTap: () {},
                   child: _selectedBottomBarTab == 0 ||
                           _selectedBottomBarTab == 1 ||
                           _selectedBottomBarTab == 2
@@ -191,31 +191,47 @@ class _HomeScreenState extends State<HomeScreen> {
                           SongModel song = songs[index];
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: SizedBox(
-                              width: 100,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    decoration: const BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return SongScreen(
+                                      songImage: song.artistArt,
+                                      songName: song.songName,
+                                      artistName: song.artistName,
+                                    );
+                                  },
+                                ));
+                              },
+                              child: SizedBox(
+                                width: 100,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12)),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(24),
+                                        child: Image.network(
+                                          song.artistArt,
+                                          fit: BoxFit.cover,
+                                          height: 100,
+                                          width: 100,
+                                        ),
+                                      ),
                                     ),
-                                    child: Image.network(
-                                      song.artistArt,
-                                      fit: BoxFit.cover,
-                                      height: 100,
-                                      width: 100,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '${song.songName} - ${song.artistName}',
-                                      textAlign: TextAlign.center,
-                                      maxLines: 3,
-                                    ),
-                                  )
-                                ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        '${song.songName} - ${song.artistName}',
+                                        textAlign: TextAlign.center,
+                                        maxLines: 3,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           );
@@ -265,11 +281,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
                                       ),
-                                      child: Image.network(
-                                        song.albumArt,
-                                        fit: BoxFit.cover,
-                                        height: 100,
-                                        width: 100,
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          song.albumArt,
+                                          fit: BoxFit.cover,
+                                          height: 100,
+                                          width: 100,
+                                        ),
                                       ),
                                     ),
                                     Padding(
@@ -324,11 +342,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(12)),
                                     ),
-                                    child: Image.network(
-                                      song.artistArt,
-                                      fit: BoxFit.cover,
-                                      height: 100,
-                                      width: 100,
+                                    child: ClipRRect(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(24)),
+                                      child: Image.network(
+                                        song.artistArt,
+                                        fit: BoxFit.cover,
+                                        height: 100,
+                                        width: 100,
+                                      ),
                                     ),
                                   ),
                                   Padding(
