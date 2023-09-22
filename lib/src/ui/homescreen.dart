@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mume/src/models/song.dart';
+import 'package:mume/src/ui/artist_tab.dart';
 
 import 'package:mume/src/ui/premium_screen.dart';
 import 'package:mume/src/ui/songs_tab.dart';
@@ -180,7 +181,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       : _selectedTab == 1
                           ? SongsTab(songs: songs)
-                          : Container(),
+                          : _selectedTab == 2
+                              ? ArtistTab()
+                              : Container(),
                 ]),
               ),
             )
