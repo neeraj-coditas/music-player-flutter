@@ -2,45 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mume/src/models/song.dart';
 
 class ArtistScreen extends StatelessWidget {
-  ArtistScreen({super.key});
+  const ArtistScreen({super.key, required this.songs});
 
-  final List<SongModel> songs = [
-    SongModel(
-        songName: "Shape of You",
-        artistName: "Ed Sheeran",
-        artistArt:
-            "https://upload.wikimedia.org/wikipedia/en/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png",
-        albumArt:
-            "https://static.independent.co.uk/s3fs-public/thumbnails/image/2014/12/05/18/Ed-Sheeran.jpg"),
-    SongModel(
-        songName: "Blinding Lights",
-        artistName: "The Weeknd",
-        artistArt:
-            "https://upload.wikimedia.org/wikipedia/en/e/e6/The_Weeknd_-_Blinding_Lights.png",
-        albumArt:
-            "https://thefader-res.cloudinary.com/private_images/w_760,c_limit,f_auto,q_auto:best/the-weeknd-name-change-abel-Tesfaye_yyfhyl/the-weeknd-photo-by-brian-ziff.jpg"),
-    SongModel(
-        songName: "Uptown Funk",
-        artistName: "Mark Ronson ft. Bruno Mars",
-        artistArt:
-            "https://upload.wikimedia.org/wikipedia/en/a/a7/Mark_Ronson_-_Uptown_Funk_%28feat._Bruno_Mars%29_%28Official_Single_Cover%29.png",
-        albumArt:
-            "https://lastfm.freetls.fastly.net/i/u/ar0/7253d5bd01c230ed133e235ead33d64b.jpg"),
-    SongModel(
-        songName: "Bohemian Rhapsody",
-        artistName: "Queen",
-        artistArt:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1ZsX7hIWSaqhUA4uDoD3EdwAX22fqSi1oZPfNPVebcxHs1DkNlTjPE3yrh4EKzDBooGI&usqp=CAU",
-        albumArt:
-            "https://www.japantimes.co.jp/uploads/imported_images/uploads/2019/01/p11-stmichel-wideangle-a-20190201.jpg"),
-    SongModel(
-        songName: "LuCoZaDe",
-        artistName: "Zayn",
-        artistArt:
-            "https://m.media-amazon.com/images/I/81aqwOlV+LL._UF1000,1000_QL80_.jpg",
-        albumArt:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFZBlmWVft_RAAs2LNl5WLpM1e4RH7Ch-Vq91eLa5LLikxJSHlkUj_eCi3GLs6JO8w1WI&usqp=CAU"),
-  ];
+  final List<SongModel> songs;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +49,7 @@ class ArtistScreen extends StatelessWidget {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(24),
                   child: Image(
-                    image: NetworkImage(songs[1].albumArt),
+                    image: NetworkImage(songs[1].artistArt),
                     fit: BoxFit.cover,
                   )),
             ),
@@ -206,7 +170,7 @@ class ArtistScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Image.network(song.artistArt),
+                          Image.network(song.albumArt),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [

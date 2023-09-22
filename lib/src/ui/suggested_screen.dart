@@ -44,7 +44,7 @@ class SuggestedScreen extends StatelessWidget {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
                         return SongScreen(
-                          songImage: song.artistArt,
+                          songImage: song.albumArt,
                           songName: song.songName,
                           artistName: song.artistName,
                         );
@@ -62,7 +62,7 @@ class SuggestedScreen extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(24),
                             child: Image.network(
-                              song.artistArt,
+                              song.albumArt,
                               fit: BoxFit.cover,
                               height: 100,
                               width: 100,
@@ -70,11 +70,12 @@ class SuggestedScreen extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(top: 8.0),
                           child: Text(
                             '${song.songName} - ${song.artistName}',
                             textAlign: TextAlign.center,
-                            maxLines: 3,
+                            maxLines: 2,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         )
                       ],
@@ -104,8 +105,12 @@ class SuggestedScreen extends StatelessWidget {
         const SizedBox(height: 20),
         GestureDetector(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ArtistScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ArtistScreen(
+                          songs: songs,
+                        )));
           },
           child: SizedBox(
             height: 175,
@@ -126,7 +131,7 @@ class SuggestedScreen extends StatelessWidget {
                           ),
                           child: ClipOval(
                             child: Image.network(
-                              song.albumArt,
+                              song.artistArt,
                               fit: BoxFit.cover,
                               height: 100,
                               width: 100,
@@ -139,6 +144,7 @@ class SuggestedScreen extends StatelessWidget {
                             song.artistName,
                             textAlign: TextAlign.center,
                             maxLines: 2,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         )
                       ],
@@ -187,7 +193,7 @@ class SuggestedScreen extends StatelessWidget {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(24)),
                           child: Image.network(
-                            song.artistArt,
+                            song.albumArt,
                             fit: BoxFit.cover,
                             height: 100,
                             width: 100,
@@ -197,9 +203,10 @@ class SuggestedScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          song.artistName,
+                          '${song.songName} - ${song.artistName}',
                           textAlign: TextAlign.center,
                           maxLines: 2,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       )
                     ],

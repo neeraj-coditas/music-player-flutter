@@ -111,7 +111,7 @@ class _SongScreenState extends State<SongScreen> {
                     size: 32,
                   ),
                   const Icon(
-                    Icons.fast_rewind_rounded,
+                    Icons.replay_30_rounded,
                     size: 32,
                   ),
                   GestureDetector(
@@ -135,7 +135,7 @@ class _SongScreenState extends State<SongScreen> {
                     ),
                   ),
                   const Icon(
-                    Icons.fast_forward_rounded,
+                    Icons.forward_30_rounded,
                     size: 32,
                   ),
                   const Icon(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mume/src/models/song.dart';
 
 import 'package:mume/src/ui/premium_screen.dart';
+import 'package:mume/src/ui/songs_tab.dart';
 import 'package:mume/src/utils/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -32,37 +33,42 @@ class _HomeScreenState extends State<HomeScreen> {
         songName: "Shape of You",
         artistName: "Ed Sheeran",
         artistArt:
-            "https://upload.wikimedia.org/wikipedia/en/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png",
+            "https://static.independent.co.uk/s3fs-public/thumbnails/image/2014/12/05/18/Ed-Sheeran.jpg",
         albumArt:
-            "https://static.independent.co.uk/s3fs-public/thumbnails/image/2014/12/05/18/Ed-Sheeran.jpg"),
+            "https://upload.wikimedia.org/wikipedia/en/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png",
+        duration: "2:55"),
     SongModel(
         songName: "Blinding Lights",
         artistName: "The Weeknd",
         artistArt:
-            "https://upload.wikimedia.org/wikipedia/en/e/e6/The_Weeknd_-_Blinding_Lights.png",
+            "https://thefader-res.cloudinary.com/private_images/w_760,c_limit,f_auto,q_auto:best/the-weeknd-name-change-abel-Tesfaye_yyfhyl/the-weeknd-photo-by-brian-ziff.jpg",
         albumArt:
-            "https://thefader-res.cloudinary.com/private_images/w_760,c_limit,f_auto,q_auto:best/the-weeknd-name-change-abel-Tesfaye_yyfhyl/the-weeknd-photo-by-brian-ziff.jpg"),
+            "https://upload.wikimedia.org/wikipedia/en/e/e6/The_Weeknd_-_Blinding_Lights.png",
+        duration: "3:35"),
     SongModel(
         songName: "Uptown Funk",
-        artistName: "Mark Ronson ft. Bruno Mars",
+        artistName: "Bruno Mars",
         artistArt:
-            "https://i.scdn.co/image/ab67616d0000b273e419ccba0baa8bd3f3d7abf2",
+            "https://lastfm.freetls.fastly.net/i/u/ar0/7253d5bd01c230ed133e235ead33d64b.jpg",
         albumArt:
-            "https://lastfm.freetls.fastly.net/i/u/ar0/7253d5bd01c230ed133e235ead33d64b.jpg"),
+            "https://i.scdn.co/image/ab67616d0000b273e419ccba0baa8bd3f3d7abf2",
+        duration: "4:12"),
     SongModel(
         songName: "Bohemian Rhapsody",
         artistName: "Queen",
         artistArt:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1ZsX7hIWSaqhUA4uDoD3EdwAX22fqSi1oZPfNPVebcxHs1DkNlTjPE3yrh4EKzDBooGI&usqp=CAU",
+            "https://www.japantimes.co.jp/uploads/imported_images/uploads/2019/01/p11-stmichel-wideangle-a-20190201.jpg",
         albumArt:
-            "https://www.japantimes.co.jp/uploads/imported_images/uploads/2019/01/p11-stmichel-wideangle-a-20190201.jpg"),
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1ZsX7hIWSaqhUA4uDoD3EdwAX22fqSi1oZPfNPVebcxHs1DkNlTjPE3yrh4EKzDBooGI&usqp=CAU",
+        duration: "3:29"),
     SongModel(
         songName: "LuCoZaDe",
         artistName: "Zayn",
         artistArt:
-            "https://m.media-amazon.com/images/I/81aqwOlV+LL._UF1000,1000_QL80_.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFZBlmWVft_RAAs2LNl5WLpM1e4RH7Ch-Vq91eLa5LLikxJSHlkUj_eCi3GLs6JO8w1WI&usqp=CAU",
         albumArt:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFZBlmWVft_RAAs2LNl5WLpM1e4RH7Ch-Vq91eLa5LLikxJSHlkUj_eCi3GLs6JO8w1WI&usqp=CAU"),
+            "https://m.media-amazon.com/images/I/81aqwOlV+LL._UF1000,1000_QL80_.jpg",
+        duration: "2:45")
   ];
 
   final List<Tab> _tabList = [
@@ -154,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: SingleChildScrollView(
                 child: Column(children: [
                   DefaultTabController(
-                    initialIndex: 0,
+                    initialIndex: _selectedTab,
                     length: 5,
                     child: TabBar(
                       isScrollable: true,
@@ -172,7 +178,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? SuggestedScreen(
                           songs: songs,
                         )
-                      : Container(),
+                      : _selectedTab == 1
+                          ? SongsTab(songs: songs)
+                          : Container(),
                 ]),
               ),
             )
