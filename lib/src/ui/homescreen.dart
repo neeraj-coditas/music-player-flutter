@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mume/src/models/song.dart';
-import 'package:mume/src/ui/artist_tab.dart';
+import 'package:mume/src/ui/tabs/album_tab.dart';
+import 'package:mume/src/ui/tabs/artist_tab.dart';
 
 import 'package:mume/src/ui/premium_screen.dart';
-import 'package:mume/src/ui/songs_tab.dart';
+import 'package:mume/src/ui/tabs/songs_tab.dart';
 import 'package:mume/src/utils/theme_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'package:mume/src/ui/suggested_screen.dart';
+import 'package:mume/src/ui/tabs/suggested_tab.dart';
+import 'package:mume/src/ui/tabs/folder_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -113,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Align(
         alignment: Alignment.center,
         child: Text(
-          "Favourites",
+          "Folders",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
@@ -183,7 +185,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? SongsTab(songs: songs)
                           : _selectedTab == 2
                               ? ArtistTab()
-                              : Container(),
+                              : _selectedTab == 3
+                                  ? AlbumTab()
+                                  : _selectedTab == 4
+                                      ? FolderTab()
+                                      : Container(),
                 ]),
               ),
             )
@@ -462,7 +468,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.home,
+                Icons.home_rounded,
                 color: Colors.grey,
               ),
               activeIcon: Icon(

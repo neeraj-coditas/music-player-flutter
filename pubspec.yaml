@@ -26,6 +26,7 @@ flutter:
     - assets/logo.png
     - assets/premium.png
     - assets/lessthanzero.mp3
+    - assets/folder.png
 
   fonts:
     - family: "Poppins"
